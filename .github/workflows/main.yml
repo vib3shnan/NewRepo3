@@ -4,7 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches: ["master"]
-    
+
+env:
+    AZURE_WEBAPP_NAME: DockerWebbApp
+    AZURE_WEBAPP_PACKAGE_NAME: "./publish"
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -27,3 +31,9 @@ jobs:
       - name: Publish
         run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build
         
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          publish-profile: ''
+          package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
