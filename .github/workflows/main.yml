@@ -29,7 +29,7 @@ jobs:
         run: dotnet build ./WebApplication_1.sln --configuration Release --no-restore
          
       - name: Publish
-        run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build
+        run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
         
       - name: Deploy
         uses: azure/webapps-deploy@v2
