@@ -81,12 +81,12 @@ jobs:
           app-name: ${{env.AZURE_WEBAPP_NAME}}
           slot-name: production
           images: ${{ secrets.ACR_LOGIN_SERVER }}/myapp:${{ github.sha }}  
-#       - name: Deploy
-#         uses: azure/webapps-deploy@v2
-#         with:
-#           app-name: ${{env.AZURE_WEBAPP_NAME}}
-#           publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
-#           package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+      - name: Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
+          package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
       - name: Deploy Docker Compose
         run: |
           docker-compose up -d
