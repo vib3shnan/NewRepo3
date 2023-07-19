@@ -30,10 +30,26 @@ jobs:
          
       - name: Publish
         run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+
+      - name: Setup Azure CLI
+        uses: azure/setup-azure-cli@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Service Principal
+        id: create-sp
+        run: |
+          az ad sp create-for-rbac --name "myApp" --role contributor \
+                                    --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
+                                    --sdk-auth > sp-auth.json
+
+      - name: Print Service Principal Output
+        run: cat sp-auth.json
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ steps.create-sp.outputs.stdout }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
