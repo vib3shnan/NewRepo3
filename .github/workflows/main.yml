@@ -68,14 +68,14 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t mmpreprodacr.azurecr.io/myapp:${{ github.sha }} -f ./Dockerfile .
+          docker build -t mmpreprodacr.azurecr.io/myapp:latest -f ./Dockerfile .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{env.AZURE_WEBAPP_NAME}}
           slot-name: production
-          images: mmpreprodacr.azurecr.io/myapp:${{ github.sha }}
+          images: mmpreprodacr.azurecr.io/myapp:latest
           multi-container-config-type: compose
           multi-container-config-file: ./docker-compose.yml
 #       - name: Deploy
