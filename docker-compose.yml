@@ -1,10 +1,8 @@
 version: '3.8'
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  myapp:
+    image: mmpreprodacr.azurecr.io/my-dotnet-app:${{ github.sha }}
     ports:
-      - 8080:80
-    restart: always
-  
+      - 80:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
