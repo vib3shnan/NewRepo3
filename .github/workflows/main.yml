@@ -50,6 +50,7 @@ jobs:
 #         uses: azure/login@v1
 #         with:
 #           creds: ${{ steps.create-sp.outputs.stdout }}
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
