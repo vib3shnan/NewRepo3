@@ -90,11 +90,11 @@ jobs:
         with:
           app-name: ${{env.AZURE_WEBAPP_NAME}}
           publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
-         # package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
-          slot-name: production
-          images: mmpreprodacr.azurecr.io/myapp:latest
-          multi-container-config-type: compose
-          multi-container-config-file: ./docker-compose.yml
+          package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+#           slot-name: production
+#           images: mmpreprodacr.azurecr.io/myapp:latest
+#           multi-container-config-type: compose
+#           multi-container-config-file: ./docker-compose.yml
 
 #       - name: Deploy Docker Compose
 #         run: |
