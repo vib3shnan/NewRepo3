@@ -47,21 +47,21 @@ jobs:
 #       - name: Print Service Principal Output
 #         run: cat sp-auth.json
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ steps.create-sp.outputs.stdout }}
+#       - name: Login to Azure
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{ steps.create-sp.outputs.stdout }}
 
       - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Create Service Principal
-        id: create-sp
-        run: |
-          az ad sp create-for-rbac --name "SampleWebbApp" --role contributor \
-                                    --scopes /subscriptions/{b1e1d80b-08a7-48a8-80ac-3bf6e6cad7ff}/resourceGroups/{MM-PreProd-resource-group} \
-                                    --sdk-auth > sp-auth.json
+#       - name: Create Service Principal
+#         id: create-sp
+#         run: |
+#           az ad sp create-for-rbac --name "SampleWebbApp" --role contributor \
+#                                     --scopes /subscriptions/{b1e1d80b-08a7-48a8-80ac-3bf6e6cad7ff}/resourceGroups/{MM-PreProd-resource-group} \
+#                                     --sdk-auth > sp-auth.json
 
 
       - name: Login to Azure Container Registry
