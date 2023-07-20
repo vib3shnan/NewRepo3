@@ -6,3 +6,10 @@ services:
       - 80:80
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+    secrets:
+  acr_credentials:
+    external: true
+
+secrets:
+  acr_login_server:
+    external: true
