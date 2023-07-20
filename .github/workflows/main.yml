@@ -31,6 +31,7 @@ jobs:
       - name: Publish
         run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
 
+
 #       - name: Setup Azure CLI
 #         uses: azure/setup-azure-cli@v1
 #       - name: Checkout
