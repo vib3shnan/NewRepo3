@@ -37,12 +37,12 @@ jobs:
 #       - name: Checkout
 #         uses: actions/checkout@v3
 
-#       - name: Create Service Principal
-#         id: create-sp
-#         run: |
-#           az ad sp create-for-rbac --name "myApp" --role contributor \
-#                                     --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
-#                                     --sdk-auth > sp-auth.json
+      - name: Create Service Principal
+        id: create-sp
+        run: |
+          az ad sp create-for-rbac --name "SampleWebbApp" --role contributor \
+                                    --scopes /subscriptions/{b1e1d80b-08a7-48a8-80ac-3bf6e6cad7ff}/resourceGroups/{MM-PreProd-resource-group} \
+                                    --sdk-auth > sp-auth.json
 
 #       - name: Print Service Principal Output
 #         run: cat sp-auth.json
