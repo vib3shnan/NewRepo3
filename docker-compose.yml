@@ -3,7 +3,8 @@ services:
   myapp:
     image: mmpreprodacr.azurecr.io/myapp:latest
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443"  
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     secrets:
