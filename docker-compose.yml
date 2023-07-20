@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   myapp:
-    image: mmpreprodacr.azurecr.io/my-dotnet-app:${{ github.sha }}
+    image: mmpreprodacr.azurecr.io/myapp:${{ github.sha }}
     ports:
       - 80:80
     environment:
