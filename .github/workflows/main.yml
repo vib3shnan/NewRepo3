@@ -6,7 +6,7 @@ on:
     branches: ["master"]
 
 env:
-    AZURE_WEBAPP_NAME: TenantOne
+    AZURE_WEBAPP_NAME: SampleWebbApp
     AZURE_WEBAPP_PACKAGE_NAME: "./publish"
 
 jobs:
