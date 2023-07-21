@@ -30,7 +30,9 @@ jobs:
         run: |
                 dotnet restore
                 dotnet build --configuration Release
-                dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
+                dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+#         dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
+                
       
 #       - name: Build 
 #         run: dotnet build ./WebApplication_1.sln --configuration Release --no-restore
