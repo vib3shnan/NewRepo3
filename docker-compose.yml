@@ -7,10 +7,10 @@ services:
       - "443:443"  
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-    secrets:
-  acr_credentials:
-    external: true
+#     secrets:
+#   acr_credentials:
+#     external: true
 
-secrets:
-  acr_login_server:
-    external: true
+# secrets:
+#   acr_login_server:
+#     external: true
