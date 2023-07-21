@@ -104,19 +104,19 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
-#       - name: Deploy to Azure Web App
-#         uses: azure/webapps-deploy@v2
-#         with:
-#           app-name: ${{env.AZURE_WEBAPP_NAME}}
-#           slot-name: production
-#           images: mmpreprodacr.azurecr.io/myapp:latest
-#           multi-container-config-type: compose
-#           multi-container-config-file: ./docker-compose.yml
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{env.AZURE_WEBAPP_NAME}}   # Replace with the name of your Azure Web App Service
-          images:  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          slot-name: production
+          images: mmpreprodacr.azurecr.io/myapp:latest
+          multi-container-config-type: compose
+          multi-container-config-file: ./docker-compose.yml
+#       - name: Deploy to Azure Web App
+#         uses: azure/webapps-deploy@v2
+#         with:
+#           app-name: ${{env.AZURE_WEBAPP_NAME}}   # Replace with the name of your Azure Web App Service
+#           images:  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
 
 #       - name: Deploy
 #         uses: azure/webapps-deploy@v2
