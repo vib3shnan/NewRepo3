@@ -8,7 +8,7 @@ on:
 env:
     AZURE_WEBAPP_NAME: SampleWebbApp
     AZURE_WEBAPP_PACKAGE_NAME: "./publish"
-    AZURE_CONTAINER_REGISTRY: mmpreprodcr.azurecr.io
+    AZURE_CONTAINER_REGISTRY: mmpreprodacr.azurecr.io
 
 jobs:
   publish:
