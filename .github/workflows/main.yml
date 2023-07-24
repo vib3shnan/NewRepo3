@@ -50,8 +50,8 @@ jobs:
       # docker-compose push
     - name: Push Docker image to Azure Container Registry
       run: |
-            docker tag mydemoapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}.azurecr.io/mydemoapp:${{ github.sha }}
-            docker push ${{env.AZURE_CONTAINER_REGISTRY}}.azurecr.io/mydemoapp:${{ github.sha }}            
+            docker tag mydemoapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}.azurecr.io/myapp:latest
+            docker push ${{env.AZURE_CONTAINER_REGISTRY}}.azurecr.io/myapp:latest           
     - name: Deploy to Azure Web App
       run: |
         az webapp config container set --resource-group MM-PreProd-resource-group --name WebbApp --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
