@@ -1,4 +1,7 @@
  version: '3.8'
+ services:
+ myapp:
+     image: preprodacr.azurecr.io/webbApp:latest
 # version: '3'
 # services:
 #   azure-vote-back:
@@ -25,11 +28,9 @@
 #       - "443:443"  
 #     environment:
 #       - ASPNETCORE_ENVIRONMENT=Production
-services:
- myapp:
-     image: preprodacr.azurecr.io/webbApp:latest
-     environment:
-       ALLOW_EMPTY_PASSWORD: "yes"
+
+     # environment:
+     #   ALLOW_EMPTY_PASSWORD: "yes"
       # ports:
       #     -"6379:6379"
 #     secrets:
