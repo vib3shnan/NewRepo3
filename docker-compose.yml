@@ -11,9 +11,9 @@ version: '3.8'
 services:
  myapp:
      image: preprodacr.azurecr.io/webbApp:latest
-     build:
-     context: ./WebApplication_1
-      dockerfile: Dockerfile
+     # build:
+     # context: ./WebApplication_1
+     #  dockerfile: Dockerfile
 #     secrets:
 #   acr_credentials:
 #     external: true
