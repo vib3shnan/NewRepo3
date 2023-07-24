@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   webapp:
-    image: webapp:latest
+    image: preprodacr.azurecr.io/webapp:latest
     build:
       context: .
       dockerfile: Dockerfile
