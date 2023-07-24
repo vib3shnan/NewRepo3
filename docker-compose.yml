@@ -1,6 +1,6 @@
  version: '3.8'
  services:
- myapp:
+   myapp:
      image: preprodacr.azurecr.io/webbApp:latest
 # version: '3'
 # services:
