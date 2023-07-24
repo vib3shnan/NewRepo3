@@ -10,7 +10,7 @@ version: '3.8'
 #       - ASPNETCORE_ENVIRONMENT=Production
 services:
  webapp:
- image: WebbApp
+ image: preprodacr.azurecr.io/webapp:latest
  build:
  context: ./WebApplication_1
  dockerfile: Dockerfile
