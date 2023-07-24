@@ -16,10 +16,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build .NET Web Application
+    - name: Restore
+      run: dotnet restore ./WebApplication_1.sln
+        
+    - name: dotnet build and publish
       run: |
-        cd \Users\vibeshnanp\source\repos\WebApplication_1\WebApplication_1.sln
-        dotnet build
+                dotnet restore
+                dotnet build --configuration Release
+                dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
 
     - name: Login to Azure CLI
       uses: azure/login@v1
