@@ -1,4 +1,4 @@
-# version: '3.8'
+ version: '3.8'
 # version: '3'
 # services:
 #   azure-vote-back:
@@ -30,8 +30,8 @@ services:
      image: preprodacr.azurecr.io/webbApp:latest
      environment:
        ALLOW_EMPTY_PASSWORD: "yes"
-      ports:
-          -"6379:6379"
+      # ports:
+      #     -"6379:6379"
 #     secrets:
 #   acr_credentials:
 #     external: true
