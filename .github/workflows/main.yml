@@ -47,8 +47,11 @@ jobs:
     - name: Build and Push Docker Images
       run: |
         docker-compose build
-        docker-compose push
-
+      # docker-compose push
+    - name: Push Docker image to Azure Container Registry
+      run: |
+            docker tag mydemoapp:latest ${{AZURE_CONTAINER_REGISTRY}}.azurecr.io/mydemoapp:${{ github.sha }}
+            docker push ${{AZURE_CONTAINER_REGISTRY}}.azurecr.io/mydemoapp:${{ github.sha }}            
     - name: Deploy to Azure Web App
       run: |
         az webapp config container set --resource-group MM-PreProd-resource-group --name WebbApp --multicontainer-config-type compose --multicontainer-config-file docker-compose.yml
