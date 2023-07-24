@@ -18,7 +18,7 @@ jobs:
 
     - name: Build .NET Web Application
       run: |
-        cd MyWebApp
+        cd WebApplication_1.sln
         dotnet build
 
     - name: Login to Azure CLI
