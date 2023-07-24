@@ -9,8 +9,8 @@ version: '3.8'
 #     environment:
 #       - ASPNETCORE_ENVIRONMENT=Production
 services:
- todoapi:
- image: todoapi
+ webapp:
+ image: WebbApp
  build:
  context: ./WebApplication_1
  dockerfile: Dockerfile
