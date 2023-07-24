@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   webapp:
-    image: webbapp:latest
+    image: webapp:latest
     build:
       context: .
       dockerfile: Dockerfile
