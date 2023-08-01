@@ -52,7 +52,7 @@ jobs:
     
     - name: Push the image myapp:latest
       run: |
-          docker push $IMAGE_ID
+          docker push myapp:latest
     - name: Deploy Docker Compose into App service
       run: |
           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
