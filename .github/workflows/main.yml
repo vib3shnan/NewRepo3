@@ -155,8 +155,8 @@ jobs:
     
       - name: Docker Build & Push to ACR
         run: |
-         docker build . -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
-         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
+         docker build . -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:${{ github.sha }}
+         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:${{ github.sha }}
       - name: Deploy to Azure Web App
         run: |
           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
