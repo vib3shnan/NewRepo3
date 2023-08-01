@@ -50,24 +50,24 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
     
-    - name: Push the image myapp:latest
-      run: |
-          docker push myapp:latest
-    - name: Deploy Docker Compose into App service
-      run: |
-          az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
+#     - name: Push the image myapp:latest
+#       run: |
+#           docker push myapp:latest
+#     - name: Deploy Docker Compose into App service
+#       run: |
+#           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
           
-#     - name: Build and Push Docker Images
-#       run: |
-#         docker-compose build
-#       # docker-compose push
-#     - name: Push Docker image to Azure Container Registry
-#       run: |
-#             docker tag myapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest
-#             docker push ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest           
-#     - name: Deploy to Azure Web App
-#       run: |
-#         az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
+    - name: Build and Push Docker Images
+      run: |
+        docker-compose build
+      # docker-compose push
+    - name: Push Docker image to Azure Container Registry
+      run: |
+            docker tag myapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest
+            docker push ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest           
+    - name: Deploy to Azure Web App
+      run: |
+        az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
 
 
 
