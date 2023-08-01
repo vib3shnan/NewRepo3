@@ -34,6 +34,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+#     - name: Login to Azure using service principal
+#       run: |
+#           az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+#           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 
 #     - name: Configure Docker
 #       run: |
@@ -44,25 +49,10 @@ jobs:
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-    - name: Login to Docker registry
-      run: docker login ${{ secrets.DOCKER_REGISTRY_URL }} -u ${{ secrets.DOCKER_REGISTRY_USERNAME }} -p ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-
-    - name: Set up Docker Compose
+    
+    - name: Push the image myapp:latest
       run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-          curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" > docker-compose
-          chmod +x docker-compose
-          sudo mv docker-compose /usr/local/bin/
-
-    - name: Build and push Docker images
-      run: |
-          docker-compose build
-          docker-compose push
- 
-#     - name: Push the image myapp:latest
-#       run: |
-#           docker push $IMAGE_ID
+          docker push $IMAGE_ID
     - name: Deploy Docker Compose into App service
       run: |
           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
