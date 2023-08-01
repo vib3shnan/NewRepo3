@@ -1,210 +1,210 @@
-name: Publish
-
-on:
- push:
-    branches: [master]
-#  pull_request:
-#     branches: [master]
-    
- 
-env:
-  AZURE_WEBAPP_NAME: WebbApp  
-  AZURE_WEBAPP_PACKAGE_NAME: "./publish"
-  AZURE_CONTAINER_REGISTRY: mmpreprodacr.azurecr.io
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Restore
-      run: dotnet restore ./WebApplication_1.sln
-        
-    - name: dotnet build and publish
-      run: |
-                dotnet restore
-                dotnet build --configuration Release
-                dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
-
-     #dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
-    - name: Login to Azure CLI
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-#     - name: Login to Azure using service principal
-#       run: |
-#           az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-#           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-
-#     - name: Configure Docker
-#       run: |
-#         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin preprodacr.azurecr.io
-    - name: Login to Azure Container Registry
-      uses: azure/docker-login@v1
-      with:
-          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-    
-#     - name: Push the image myapp:latest
-#       run: |
-#           docker push myapp:latest
-#     - name: Deploy Docker Compose into App service
-#       run: |
-#           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
-          
-    - name: Build and Push Docker Images
-      run: |
-        docker-compose build
-      # docker-compose push
-    - name: Push Docker image to Azure Container Registry
-      run: |
-            docker tag myapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest
-            docker push ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest           
-    - name: Deploy to Azure Web App
-      run: |
-        az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
-
-
-
-
 # name: Publish
 
 # on:
-#   workflow_dispatch:
-#   push:
-#     branches: ["master"]
-
+#  push:
+#     branches: [master]
+# #  pull_request:
+# #     branches: [master]
+    
+ 
 # env:
-#     AZURE_WEBAPP_NAME: WebbApp  
-#     AZURE_WEBAPP_PACKAGE_NAME: "./publish"
-#     AZURE_CONTAINER_REGISTRY: mmpreprodacr.azurecr.io
+#   AZURE_WEBAPP_NAME: WebbApp  
+#   AZURE_WEBAPP_PACKAGE_NAME: "./publish"
+#   AZURE_CONTAINER_REGISTRY: mmpreprodacr.azurecr.io
 
 # jobs:
-#   publish:
+#   build-and-deploy:
 #     runs-on: ubuntu-latest
-  
+
 #     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-      
-#       - name: Setup dotnet
-#         uses: actions/setup-dotnet@v3
-#         with:
-#           dotnet-version: '6.0.300'
+#     - name: Checkout code
+#       uses: actions/checkout@v2
+
+#     - name: Restore
+#       run: dotnet restore ./WebApplication_1.sln
         
-#       - name: Restore
-#         run: dotnet restore ./WebApplication_1.sln
-        
-#       - name: dotnet build and publish
-#         run: |
+#     - name: dotnet build and publish
+#       run: |
 #                 dotnet restore
 #                 dotnet build --configuration Release
 #                 dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
-# #         dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
+
+#      #dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
+#     - name: Login to Azure CLI
+#       uses: azure/login@v1
+#       with:
+#         creds: ${{ secrets.AZURE_CREDENTIALS }}
+# #     - name: Login to Azure using service principal
+# #       run: |
+# #           az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+# #           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+
+# #     - name: Configure Docker
+# #       run: |
+# #         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin preprodacr.azurecr.io
+#     - name: Login to Azure Container Registry
+#       uses: azure/docker-login@v1
+#       with:
+#           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+#           username: ${{ secrets.ACR_USERNAME }}
+#           password: ${{ secrets.ACR_PASSWORD }}
+    
+# #     - name: Push the image myapp:latest
+# #       run: |
+# #           docker push myapp:latest
+# #     - name: Deploy Docker Compose into App service
+# #       run: |
+# #           az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
+          
+#     - name: Build and Push Docker Images
+#       run: |
+#         docker-compose build
+#       # docker-compose push
+#     - name: Push Docker image to Azure Container Registry
+#       run: |
+#             docker tag myapp:latest ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest
+#             docker push ${{env.AZURE_CONTAINER_REGISTRY}}/myapp:latest           
+#     - name: Deploy to Azure Web App
+#       run: |
+#         az webapp config container set --resource-group "MM-PreProd-resource-group" --name "WebbApp" --multicontainer-config-type compose --multicontainer-config-file ./docker-compose.yml
+
+
+
+
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master"]
+
+env:
+    AZURE_WEBAPP_NAME: WebbApp  
+    AZURE_WEBAPP_PACKAGE_NAME: "./publish"
+    AZURE_CONTAINER_REGISTRY: mmpreprodacr.azurecr.io
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.300'
+        
+      - name: Restore
+        run: dotnet restore ./WebApplication_1.sln
+        
+      - name: dotnet build and publish
+        run: |
+                dotnet restore
+                dotnet build --configuration Release
+                dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+#         dotnet publish -c Release --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_NAME }}/myapp'
                 
       
-# #       - name: Build 
-# #         run: dotnet build ./WebApplication_1.sln --configuration Release --no-restore
+#       - name: Build 
+#         run: dotnet build ./WebApplication_1.sln --configuration Release --no-restore
          
-# #       - name: Publish
-# #         run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
+#       - name: Publish
+#         run: dotnet publish ./WebApplication_1.sln --configuration Release --no-build --output "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
 
 
-# #       - name: Setup Azure CLI
-# #         uses: azure/setup-azure-cli@v1
-# #       - name: Checkout
-# #         uses: actions/checkout@v3
+#       - name: Setup Azure CLI
+#         uses: azure/setup-azure-cli@v1
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-# #       - name: Create Service Principal
-# #         id: create-sp
-# #         run: |
-# #           az ad sp create-for-rbac --name "SampleWebbApp" --role contributor \
-# #                                     --scopes /subscriptions/{b1e1d80b-08a7-48a8-80ac-3bf6e6cad7ff}/resourceGroups/{MM-PreProd-resource-group} \
-# #                                     --sdk-auth > sp-auth.json
+#       - name: Create Service Principal
+#         id: create-sp
+#         run: |
+#           az ad sp create-for-rbac --name "SampleWebbApp" --role contributor \
+#                                     --scopes /subscriptions/{b1e1d80b-08a7-48a8-80ac-3bf6e6cad7ff}/resourceGroups/{MM-PreProd-resource-group} \
+#                                     --sdk-auth > sp-auth.json
 
-# #       - name: Print Service Principal Output
-# #         run: cat sp-auth.json
-
-# #       - name: Login to Azure
-# #         uses: azure/login@v1
-# #         with:
-# #           creds: ${{ steps.create-sp.outputs.stdout }}
+#       - name: Print Service Principal Output
+#         run: cat sp-auth.json
 
 #       - name: Login to Azure
 #         uses: azure/login@v1
 #         with:
-#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+#           creds: ${{ steps.create-sp.outputs.stdout }}
 
-#       - name: Login to Azure Container Registry
-#         uses: azure/docker-login@v1
-#         with:
-#           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
-#           username: ${{ secrets.ACR_USERNAME }}
-#           password: ${{ secrets.ACR_PASSWORD }}
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
           
           
-# #       - name: Build and Push Docker Image
-# #         run: |
-# #           docker build -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest .
-# #           docker push  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
+#       - name: Build and Push Docker Image
+#         run: |
+#           docker build -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest .
+#           docker push  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
     
-# #       - name: Docker Build & Push to ACR
-# #         run: |
-# #          docker build . -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
-# #          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
-# #       - name: Deploy Docker Compose
-# #         run: |
-# #           docker-compose up -d
+#       - name: Docker Build & Push to ACR
+#         run: |
+#          docker build . -t  ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
+#          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
+#       - name: Deploy Docker Compose
+#         run: |
+#           docker-compose up -d
          
-# #       - name: 'Deploy to Azure Web App for Container'
-# #         uses: azure/webapps-deploy@v2
-# #         with: 
-# #          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-# #          images: ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
+#       - name: 'Deploy to Azure Web App for Container'
+#         uses: azure/webapps-deploy@v2
+#         with: 
+#          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+#          images: ${{ env.AZURE_CONTAINER_REGISTRY }}/myapp:${{ github.sha }}
     
-# #       - name: Set up Docker Buildx
-# #         uses: docker/setup-buildx-action@v1
+#       - name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v1
 
-# #       - name: Build and push .NET Core app Docker image
-# #         uses: docker/build-push-action@v2
-# #         with:
-# #           context: .
-# #           dockerfile: ./Dockerfile
-# #           push: true
-# #           tags: mmpreprodacr.azurecr.io/myapp:latest
-# #           cache-from: type=local,src=/tmp/.buildx-cache
-# #           cache-to: type=local,dest=/tmp/.buildx-cache
+#       - name: Build and push .NET Core app Docker image
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: .
+#           dockerfile: ./Dockerfile
+#           push: true
+#           tags: mmpreprodacr.azurecr.io/myapp:latest
+#           cache-from: type=local,src=/tmp/.buildx-cache
+#           cache-to: type=local,dest=/tmp/.buildx-cache
 
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          slot-name: production
+          #images: mmpreprodacr.azurecr.io/myapp:latest
+          multi-container-config-type: compose
+          multi-container-config-file: ./docker-compose.yml
 #       - name: Deploy to Azure Web App
 #         uses: azure/webapps-deploy@v2
 #         with:
+#           app-name: ${{env.AZURE_WEBAPP_NAME}}   # Replace with the name of your Azure Web App Service
+#           images:  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
+
+#       - name: Deploy
+#         uses: azure/webapps-deploy@v2
+#         with:
 #           app-name: ${{env.AZURE_WEBAPP_NAME}}
+#           publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
+#         #  package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
 #           slot-name: production
-#           #images: mmpreprodacr.azurecr.io/myapp:latest
+#           images: mmpreprodacr.azurecr.io/myapp:latest
 #           multi-container-config-type: compose
 #           multi-container-config-file: ./docker-compose.yml
-# #       - name: Deploy to Azure Web App
-# #         uses: azure/webapps-deploy@v2
-# #         with:
-# #           app-name: ${{env.AZURE_WEBAPP_NAME}}   # Replace with the name of your Azure Web App Service
-# #           images:  ${{ env.AZURE_CONTAINER_REGISTRY }}/my-app:latest
 
-# #       - name: Deploy
-# #         uses: azure/webapps-deploy@v2
-# #         with:
-# #           app-name: ${{env.AZURE_WEBAPP_NAME}}
-# #           publish-profile: ${{secrets.AZURE_PUBLISH_PROFILE}}
-# #         #  package: "${{env.AZURE_WEBAPP_PACKAGE_NAME}}"
-# #           slot-name: production
-# #           images: mmpreprodacr.azurecr.io/myapp:latest
-# #           multi-container-config-type: compose
-# #           multi-container-config-file: ./docker-compose.yml
-
-# #       - name: Deploy Docker Compose
-# #         run: |
-# #           docker-compose up -d
+#       - name: Deploy Docker Compose
+#         run: |
+#           docker-compose up -d
